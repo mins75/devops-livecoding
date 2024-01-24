@@ -19,6 +19,6 @@ jobs:
 
      #finally build your app with the latest command
       - name: Build and test with Maven
-        run: #TODO
+        run: | #TODO
           mvn clean -file "devops-livecoding/simple-api/pom.xml" 
           mvn test -file "devops-livecoding/simple-api/pom.xml" 
