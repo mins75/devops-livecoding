@@ -18,11 +18,29 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-     #finally build your app with the latest command
-      - name: Build and test with Maven
-        run: | #TODO
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
           
-          mvn -B verify sonar:sonar -Dsonar.projectKey=devops-livecoding -Dsonar.organization=mins75 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
+      - name: Build and analyze
+        env:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mins75_devops-livecoding
+
+     #finally build your app with the latest command
+     # - name: Build and test with Maven
+     #   run: | #TODO
+     #     mvn -B verify sonar:sonar -Dsonar.projectKey=mins75_devops-livecoding -Dsonar.organization=mins75 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
 #mvn clean -file "simple-api/pom.xml" 
 #mvn test -file "simple-api/pom.xml" 
 # define job to build and publish docker image
