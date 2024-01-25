@@ -23,20 +23,43 @@ jobs:
         run: | #TODO
           mvn clean -file "simple-api/pom.xml" 
           mvn test -file "simple-api/pom.xml" 
+# define job to build and publish docker image
+  build-and-push-docker-image:
+   needs: test-backend
+   # run only when code is compiling and tests are passing
+   runs-on: ubuntu-22.04
+  
+   # steps to perform in job
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2.5.0
 
-      - name: Login to DockerHub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build image and push backend
-        uses: docker/build-push-action@v3
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./simple-api
-          # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
-
+     - name: Login to DockerHub
+       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+  
+     - name: Build image and push backend
+       uses: docker/build-push-action@v3
+       with:
+         # relative path to the place where source code with Dockerfile is located
+         context: ./simple-api
+         # Note: tags has to be all lower-case
+         tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
+         push: ${{ github.ref == 'refs/heads/main' }}
+  
+     - name: Build image and push database
+         # DO the same for database
+       uses: docker/build-push-action@v3
+       with:
+         context: ./database
+         tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
+         push: ${{ github.ref == 'refs/heads/main' }}
+  
+     - name: Build image and push httpd
+       # DO the same for httpd
+       uses: docker/build-push-action@v3
+       with:
+         context: ./http-server
+         tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
+         push: ${{ github.ref == 'refs/heads/main }}
+  
+  
