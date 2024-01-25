@@ -60,6 +60,6 @@ jobs:
        with:
          context: ./http-server
          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
-         push: ${{ github.ref == 'refs/heads/main }}
+         push: ${{ github.ref == 'refs/heads/main' }}
   
   
