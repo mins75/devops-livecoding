@@ -53,16 +53,16 @@ jobs:
     #     tags:  
     #     push: ${{ github.ref == 'refs/heads/main' }}
   
-    # - name: Build image and push database
-    #     # DO the same for database
-    #   run: |
-    #    docker build ./simple-api --file ./simple-api/Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
-    #    docker push ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
+     - name: Build image and push database
+         # DO the same for database
+       run: |
+        docker build ./simple-api --file ./simple-api/Dockerfile --tag myns75/tp-devops-simple-api:latest
+        docker push myns75/tp-devops-simple-api:latest
   
-    # - name: Build image and push httpd
-    #   # DO the same for httpd
-    #   run: |
-    #    docker build ./simple-api --file ./simple-api/Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
-    #    docker push ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-simple-api:latest
+     - name: Build image and push httpd
+       # DO the same for httpd
+       run: |
+        docker build ./simple-api --file ./simple-api/Dockerfile --tag myns75/tp-devops-simple-api:latest
+        docker push myns75/tp-devops-simple-api:latest
   
   
