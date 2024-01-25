@@ -39,30 +39,30 @@ jobs:
        with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_PASSWORD }}
-  
-     - name: Build image and push backend
-       uses: docker/build-push-action@v3
-       with:
-         # relative path to the place where source code with Dockerfile is located
-         context: ./simple-api
-         # Note: tags has to be all lower-case
-         tags:  ${{secrets.DOCKERHUB_USERNAME}}tp-devops-simple-api:latest
-         push: ${{ github.ref == 'refs/heads/main' }}
+
+     - name: Build Docker image and push backend
+       run: |
+        docker build . --file Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}tp-devops-simple-api:latest
+        docker push myns75/tp_cd  
+    # - name: Build image and push backend
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     # relative path to the place where source code with Dockerfile is located
+    #     context: ./simple-api
+    #     # Note: tags has to be all lower-case
+    #     tags:  
+    #     push: ${{ github.ref == 'refs/heads/main' }}
   
      - name: Build image and push database
          # DO the same for database
-       uses: docker/build-push-action@v3
-       with:
-         context: ./database
-         tags: ${{secrets.DOCKERHUB_USERNAME}}tp-devops-database:latest
-         push: ${{ github.ref == 'refs/heads/main' }}
+       run: |
+        docker build . --file Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}tp-devops-database:latest
+        docker push myns75/tp_cd  
   
      - name: Build image and push httpd
        # DO the same for httpd
-       uses: docker/build-push-action@v3
-       with:
-         context: ./http-server
-         tags: ${{secrets.DOCKERHUB_USERNAME}}tp-devops-http-server:latest
-         push: ${{ github.ref == 'refs/heads/main' }}
+       run: |
+        docker build . --file Dockerfile --tag ${{secrets.DOCKERHUB_USERNAME}}tp-devops-http-server:latest
+        docker push myns75/tp_cd  
   
   
