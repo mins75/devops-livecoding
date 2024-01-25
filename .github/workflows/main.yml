@@ -51,13 +51,13 @@ jobs:
      - name: Build image and push database
          # DO the same for database
        run: |
-        docker build ./database --file ./simple-api/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
+        docker build ./database --file ./database/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
   
      - name: Build image and push httpd
        # DO the same for httpd
        run: |
-        docker build ./http-server --file ./simple-api/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server:latest
+        docker build ./http-server --file ./http-server/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server:latest
   
   
