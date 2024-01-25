@@ -9,7 +9,7 @@ on:
 jobs:
   test-backend: 
     runs-on: ubuntu-22.04
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     steps:
      #checkout your github code using actions/checkout@v2.5.0
       - uses: actions/checkout@v2.5.0
@@ -23,20 +23,12 @@ jobs:
           
       - name: Build and analyze
         env:
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mins75_devops-livecoding --file ./simple-api/pom.xml
 
-     #finally build your app with the latest command
-     # - name: Build and test with Maven
-     #   run: | #TODO
-     #     mvn -B verify sonar:sonar -Dsonar.projectKey=mins75_devops-livecoding -Dsonar.organization=mins75 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
-#mvn clean -file "simple-api/pom.xml" 
-#mvn test -file "simple-api/pom.xml" 
-# define job to build and publish docker image
   build-and-push-docker-image:
    needs: test-backend
-   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+   if: github.ref == 'refs/heads/main'
    # run only when code is compiling and tests are passing
    runs-on: ubuntu-22.04
   
