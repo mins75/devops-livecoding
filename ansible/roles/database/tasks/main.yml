@@ -1,0 +1,8 @@
+---
+# tasks file for roles/database
+- name: Run Database Container
+  docker_container:
+    name: my-db
+    image: myns75/tp-devops-database
+    networks:
+      - name: my-network

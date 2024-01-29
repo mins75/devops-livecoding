@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - roles/docker
+    - roles/network
+    - roles/database
+    - roles/proxy
+    - roles/app
+

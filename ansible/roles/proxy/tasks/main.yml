@@ -1,0 +1,10 @@
+---
+# tasks file for roles/proxy
+- name: Run HTTPD Container
+  docker_container:
+    name: httpd
+    image: myns75/tp-devops-http-server
+    networks:
+      - name: my-network
+    ports:
+      - '80:80'
