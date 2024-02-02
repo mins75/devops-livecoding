@@ -9,7 +9,7 @@ on:
 jobs:
   test-backend: 
     runs-on: ubuntu-22.04
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    #if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     steps:
      #checkout your github code using actions/checkout@v2.5.0
       - uses: actions/checkout@v2.5.0
@@ -45,19 +45,19 @@ jobs:
 
      - name: Build Docker image and push backend
        run: |
-        docker build ./simple-api --file ./simple-api/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api:latest
+        docker build ./simple-api --file ./simple-api/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api2:latest
 
      - name: Build image and push database
          # DO the same for database
        run: |
-        docker build ./database --file ./database/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
+        docker build ./database --file ./database/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-database2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-database2:latest
   
      - name: Build image and push httpd
        # DO the same for httpd
        run: |
-        docker build ./http-server --file ./http-server/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server:latest
+        docker build ./http-server --file ./http-server/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-http-server2:latest
 
   
